@@ -12,6 +12,7 @@ import lombok.extern.jackson.Jacksonized;
 @NoArgsConstructor
 @Jacksonized
 public class SignUpRequest {
+    private String guildName;
     private String guildUrl;
     private String username;
     private String pwd;

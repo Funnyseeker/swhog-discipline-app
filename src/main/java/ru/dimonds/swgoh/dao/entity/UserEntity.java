@@ -5,6 +5,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+import org.hibernate.id.enhanced.SequenceStyleGenerator;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import java.util.Arrays;
@@ -18,7 +21,16 @@ import java.util.Objects;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserEntity extends AbstractPersistable<Long> {
+@GenericGenerator(
+        name = "sequence-generator",
+        type = SequenceStyleGenerator.class,
+        parameters = {
+                @Parameter(name = "sequence_name", value = "users_seq"),
+                @Parameter(name = "initial_value", value = "1"),
+                @Parameter(name = "increment_size", value = "1")
+        }
+)
+public class UserEntity extends AbstractEntity<Long> {
     private String      username;
     private String      pwd;
     private byte[]      salt;

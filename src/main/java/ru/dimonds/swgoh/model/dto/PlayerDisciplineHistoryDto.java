@@ -11,7 +11,7 @@ import java.time.OffsetDateTime;
 public class PlayerDisciplineHistoryDto {
     private Long           id;
     private OffsetDateTime date;
-    private Long           playerId;
-    private Long           ruleId;
+    private Long           player;
+    private Long           disciplineRule;
     private Long           disciplinePoints;
 }

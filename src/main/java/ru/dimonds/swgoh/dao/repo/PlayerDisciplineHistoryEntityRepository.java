@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import ru.dimonds.swgoh.dao.entity.PlayerDisciplineHistoryEntity;
 
 @Repository
-public interface UserDisciplineHistoryEntityRepository extends CrudRepository<PlayerDisciplineHistoryEntity, Long> {
+public interface PlayerDisciplineHistoryEntityRepository extends CrudRepository<PlayerDisciplineHistoryEntity, Long> {
 }

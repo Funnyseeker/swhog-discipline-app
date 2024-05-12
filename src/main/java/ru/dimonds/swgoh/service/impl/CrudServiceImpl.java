@@ -2,14 +2,14 @@ package ru.dimonds.swgoh.service.impl;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.data.repository.CrudRepository;
+import ru.dimonds.swgoh.dao.entity.AbstractEntity;
 import ru.dimonds.swgoh.model.mapper.GenericMapper;
 import ru.dimonds.swgoh.service.CrudService;
 
 import java.io.Serializable;
 
-public abstract class CrudServiceImpl<PK extends Serializable, T extends AbstractPersistable<PK>, D>
+public abstract class CrudServiceImpl<PK extends Serializable, T extends AbstractEntity<PK>, D>
         implements CrudService<PK, T, D>
 {
     @Autowired
@@ -20,6 +20,6 @@ public abstract class CrudServiceImpl<PK extends Serializable, T extends Abstrac
     @Override
     @Transactional
     public D save(D dto) {
-        return mapper.toDto(repo.save(mapper.toEntity(dto)));
+        return this.mapper.toDto(this.repo.save(this.mapper.toEntity(dto)));
     }
 }
