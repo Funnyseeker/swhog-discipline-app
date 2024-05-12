@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
+    <changeSet id="init_sequences" author="vsamsonov">
+        <comment>Init sequences</comment>
+        <sqlFile path="sql/sequences/guilds.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="sql/sequences/users.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="sql/sequences/players.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="sql/sequences/discipline_rules.sql" relativeToChangelogFile="true"/>
+        <sqlFile path="sql/sequences/player_discipline_history.sql" relativeToChangelogFile="true"/>
+    </changeSet>
+</databaseChangeLog>
