@@ -1,6 +1,9 @@
 package ru.dimonds.swgoh.model.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
@@ -8,6 +11,7 @@ import lombok.*;
 @Builder
 public class DisciplineRuleDto {
     private Long   id;
+    private Long   guild;
     private String reason;
     private Long   disciplinePoints;
 }

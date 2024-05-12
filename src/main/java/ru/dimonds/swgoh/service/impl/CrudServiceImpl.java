@@ -8,6 +8,8 @@ import ru.dimonds.swgoh.model.mapper.GenericMapper;
 import ru.dimonds.swgoh.service.CrudService;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.stream.StreamSupport;
 
 public abstract class CrudServiceImpl<PK extends Serializable, T extends AbstractEntity<PK>, D>
         implements CrudService<PK, T, D>
@@ -21,5 +23,12 @@ public abstract class CrudServiceImpl<PK extends Serializable, T extends Abstrac
     @Transactional
     public D save(D dto) {
         return this.mapper.toDto(this.repo.save(this.mapper.toEntity(dto)));
+    }
+
+    @Override
+    public List<D> getAll() {
+        return StreamSupport.stream(repo.findAll().spliterator(), false)
+                            .map(mapper::toDto)
+                            .toList();
     }
 }
