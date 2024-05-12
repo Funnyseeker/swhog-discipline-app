@@ -40,6 +40,9 @@ public class GuildEntity extends AbstractEntity<Long> {
     @OneToMany(mappedBy = "guild")
     @ToString.Exclude
     private Set<UserEntity> userList;
+    @OneToMany(mappedBy = "guild")
+    @ToString.Exclude
+    private Set<DisciplineRuleEntity> disciplineRules;
 
     @Override
     public boolean equals(Object o) {

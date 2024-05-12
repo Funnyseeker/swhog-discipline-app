@@ -1,11 +1,10 @@
 package ru.dimonds.swgoh.dao.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.id.enhanced.SequenceStyleGenerator;
 import org.springframework.data.jpa.domain.AbstractPersistable;
@@ -30,6 +29,9 @@ import java.util.Objects;
         }
 )
 public class DisciplineRuleEntity extends AbstractEntity<Long> {
+    @ManyToOne
+    @JoinColumn(name = "guild_id")
+    private GuildEntity guild;
     @Column(columnDefinition = "text")
     private String reason;
     private Long   disciplinePoints;
