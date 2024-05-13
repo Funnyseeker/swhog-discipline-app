@@ -21,7 +21,7 @@
             <div class="form-group" th:classappend="${#fields.hasErrors('username')}? 'has-error'">
                 <label for="username" class="col-lg-2 col-form-label">Email</label>
                 <div class="col-lg-10">
-                    <input type="text" class="form-control" id="username" placeholder="Username" th:field="*{username}" />
+                    <input type="email" class="form-control" id="username" placeholder="Email" th:field="*{username}" />
                     <span class="help-block" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Incorrect username</span>
                 </div>
             </div>

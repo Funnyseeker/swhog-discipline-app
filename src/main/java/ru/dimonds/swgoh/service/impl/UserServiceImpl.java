@@ -2,8 +2,9 @@ package ru.dimonds.swgoh.service.impl;
 
 import org.springframework.stereotype.Service;
 import ru.dimonds.swgoh.dao.entity.UserEntity;
-import ru.dimonds.swgoh.model.dto.UserDto;
+import ru.dimonds.swgoh.enums.UserRoleEnum;
 import ru.dimonds.swgoh.model.dto.SignUpRequest;
+import ru.dimonds.swgoh.model.dto.UserDto;
 import ru.dimonds.swgoh.service.UserService;
 
 import javax.xml.bind.DatatypeConverter;
@@ -26,6 +27,7 @@ public class UserServiceImpl extends CrudServiceImpl<Long, UserEntity, UserDto> 
                        .username(request.getUsername())
                        .pwd(getMD5Hash(request.getPwd(), salt))
                        .salt(salt)
+                       .role(UserRoleEnum.ADMIN)
                        .build()
         );
     }

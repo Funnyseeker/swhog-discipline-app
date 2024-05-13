@@ -1,2 +1,2 @@
-create unique index if not exists guilds_url_idx
+create index if not exists guilds_url_idx
 on guilds (url);

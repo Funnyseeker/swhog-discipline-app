@@ -1,14 +1,11 @@
 package ru.dimonds.swgoh.dao.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.id.enhanced.SequenceStyleGenerator;
-import org.springframework.data.jpa.domain.AbstractPersistable;
+import ru.dimonds.swgoh.enums.UserRoleEnum;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -31,15 +28,17 @@ import java.util.Objects;
         }
 )
 public class UserEntity extends AbstractEntity<Long> {
-    private String      username;
-    private String      pwd;
-    private byte[]      salt;
-    private String      discordNick;
-    private String      swgohAllyCode;
-    private String      comment;
+    private String       username;
+    private String       pwd;
+    private byte[]       salt;
+    @Enumerated(EnumType.STRING)
+    private UserRoleEnum role;
+    private String       discordNick;
+    private String       swgohAllyCode;
+    private String       comment;
     @ManyToOne
     @JoinColumn(name = "guild_id")
-    private GuildEntity guild;
+    private GuildEntity  guild;
 
     @Override
     public boolean equals(Object o) {

@@ -1,5 +1,6 @@
 package ru.dimonds.swgoh.controller;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,7 +22,7 @@ public class UserController {
 
     @PostMapping("/signUp")
     public String signUp(
-            SignUpRequest signUpRequest, BindingResult result, Model model
+            @Valid SignUpRequest signUpRequest, BindingResult result, Model model
     )
     {
         try {

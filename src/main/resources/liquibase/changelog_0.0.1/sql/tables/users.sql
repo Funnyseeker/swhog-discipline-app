@@ -3,6 +3,7 @@ create table users (
     username varchar(255),
     pwd varchar(255),
     salt bytea,
+    role varchar(255),
     discord_nick varchar(255),
     swgoh_ally_code varchar(255),
     comment varchar(255),
