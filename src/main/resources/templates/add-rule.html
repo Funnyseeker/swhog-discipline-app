@@ -1,0 +1,11 @@
+<form action="#" th:action="@{/rules}" th:object="${rule}" method="post" xmlns:th="http://www.thymeleaf.org">
+    <!--name-->
+    <label for="reason">Reason</label>
+    <input type="text" th:field="*{reason}" id="reason" placeholder="Reason">
+    <span th:if="${#fields.hasErrors('reason')}" th:errors="*{reason}"></span>
+    <!--password-->
+    <label for="disciplinePoints">DisciplinePoints</label>
+    <input type="number" th:field="*{disciplinePoints}" id="disciplinePoints">
+    <span th:if="${#fields.hasErrors('disciplinePoints')}" th:errors="*{disciplinePoints}"></span>
+    <input type="submit" value="Add Rule">
+</form>

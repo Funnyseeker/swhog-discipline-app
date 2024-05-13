@@ -2,7 +2,7 @@ package ru.dimonds.swgoh.service;
 
 import ru.dimonds.swgoh.dao.entity.UserEntity;
 import ru.dimonds.swgoh.model.dto.UserDto;
-import ru.dimonds.swgoh.model.request.SignUpRequest;
+import ru.dimonds.swgoh.model.dto.SignUpRequest;
 
 import java.security.NoSuchAlgorithmException;
 

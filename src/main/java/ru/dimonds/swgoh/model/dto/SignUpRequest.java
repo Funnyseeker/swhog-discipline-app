@@ -1,4 +1,4 @@
-package ru.dimonds.swgoh.model.request;
+package ru.dimonds.swgoh.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

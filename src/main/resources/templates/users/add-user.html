@@ -1,0 +1,23 @@
+<form action="#" th:action="@{/users}" th:object="${user}" method="post" xmlns:th="http://www.thymeleaf.org">
+    <!--name-->
+    <label for="name">Name</label>
+    <input type="text" th:field="*{name}" id="name" placeholder="Name">
+    <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+    <!--password-->
+    <label for="password">Password</label>
+    <input type="password" th:field="*{password}" id="password" placeholder="*****">
+    <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
+    <!--password-->
+    <label for="discordNick">DiscordNick</label>
+    <input type="text" th:field="*{discordNick}" id="discordNick" placeholder="Discord">
+    <span th:if="${#fields.hasErrors('discordNick')}" th:errors="*{discordNick}"></span>
+    <!--swgohAllyCode-->
+    <label for="swgohAllyCode">SwgohAllyCode</label>
+    <input type="text" th:field="*{swgohAllyCode}" id="swgohAllyCode" placeholder="Ally code">
+    <span th:if="${#fields.hasErrors('swgohAllyCode')}" th:errors="*{swgohAllyCode}"></span>
+    <!--comment-->
+    <label for="comment">Comment</label>
+    <input type="text" th:field="*{comment}" id="comment" placeholder="Comment">
+    <span th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}"></span>
+    <input type="submit" value="Add User">
+</form>

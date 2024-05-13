@@ -7,7 +7,7 @@ import ru.dimonds.swgoh.exception.DisciplineAppException;
 import ru.dimonds.swgoh.model.dto.GuildDto;
 import ru.dimonds.swgoh.model.dto.PlayerDto;
 import ru.dimonds.swgoh.model.dto.UserDto;
-import ru.dimonds.swgoh.model.request.SignUpRequest;
+import ru.dimonds.swgoh.model.dto.SignUpRequest;
 import ru.dimonds.swgoh.service.*;
 
 import java.time.OffsetDateTime;

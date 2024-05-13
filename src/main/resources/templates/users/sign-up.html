@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Signup</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link href="/resources/css/bootstrap.min.css" rel="stylesheet" media="screen" th:href="@{/resources/css/bootstrap.min.css}"/>
+    <link href="/resources/css/core.css" rel="stylesheet" media="screen" th:href="@{/resources/css/core.css}" />
+    <script src="/resources/js/jquery.min.js" th:src="@{/resources/js/jquery.min.js}"></script>
+    <script src="/resources/js/bootstrap.min.js" th:src="@{/resources/js/bootstrap.min.js}"></script>
+</head>
+<body>
+<div class="container">
+    <form class="form-narrow form-horizontal" method="post" th:action="@{/users/signUp}" th:object="${signUpRequest}">
+<!--        &lt;!&ndash;/* Show general error message when form contains errors */&ndash;&gt;-->
+<!--        <th:block th:if="${#fields.hasErrors('${signupForm.*}')}">-->
+<!--            <div th:replace="fragments/alert :: alert (type='danger', message='Form contains errors. Please try again.')">Alert</div>-->
+<!--        </th:block>-->
+        <fieldset>
+            <legend>Please Sign Up</legend>
+            <!--name-->
+            <div class="form-group" th:classappend="${#fields.hasErrors('username')}? 'has-error'">
+                <label for="username" class="col-lg-2 col-form-label">Email</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="username" placeholder="Username" th:field="*{username}" />
+                    <span class="help-block" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Incorrect username</span>
+                </div>
+            </div>
+            <!--password-->
+            <div class="form-group" th:classappend="${#fields.hasErrors('pwd')}? 'has-error'">
+                <label for="pwd" class="col-lg-2 col-form-label">Password</label>
+                <div class="col-lg-10">
+                    <input type="password" class="form-control" id="pwd" placeholder="Password" th:field="*{pwd}"/>
+                    <span class="help-block" th:if="${#fields.hasErrors('pwd')}" th:errors="*{pwd}">Incorrect password</span>
+                </div>
+            </div>
+            <!--guildName-->
+            <div class="form-group" th:classappend="${#fields.hasErrors('guildName')}? 'has-error'">
+                <label for="guildName" class="col-lg-2 col-form-label">Guild name</label>
+                <div class="col-lg-10">
+                    <input type="text" class="form-control" id="guildName" placeholder="Guild name" th:field="*{guildName}" />
+                    <span class="help-block" th:if="${#fields.hasErrors('guildName')}" th:errors="*{guildName}">Incorrect guild name</span>
+                </div>
+            </div>
+            <!--guildUrl-->
+            <div class="form-group" th:classappend="${#fields.hasErrors('guildUrl')}? 'has-error'">
+                <label for="guildUrl" class="col-lg-2 col-form-label">SWGOH guild url</label>
+                <div class="col-lg-10">
+                    <input type="url" class="form-control" id="guildUrl" placeholder="https://swgoh.gg/g/***/" th:field="*{guildUrl}" />
+                    <span class="help-block" th:if="${#fields.hasErrors('guildUrl')}" th:errors="*{guildUrl}">Incorrect email</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-offset-2 col-lg-10">
+                    <p>Already have an account? <a href="/users/signIn" th:href="@{/users/signIn}">Sign In</a></p>
+                </div>
+            </div>
+        </fieldset>
+    </form>
+</div>
+</body>
+</html>
