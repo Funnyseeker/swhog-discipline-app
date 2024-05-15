@@ -1,6 +1,9 @@
 package ru.dimonds.swgoh.model.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
@@ -13,5 +16,6 @@ public class PlayerDto {
     private String                          name;
     private String                          discordNickName;
     private String                          swgohAllyCode;
+    private Long                            disciplinePointsTotal;
     private Set<PlayerDisciplineHistoryDto> playerDisciplineHistory;
 }

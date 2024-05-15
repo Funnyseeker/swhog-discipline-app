@@ -27,9 +27,9 @@ public class UserController {
     {
         try {
             signUpService.signUp(signUpRequest);
-            return "home/homeSignedIn";
+            return "home/homeSignedIn.html";
         } catch (Exception e) {
-            return "users/sign-up";
+            return "users/sign-up.html";
         }
     }
 }

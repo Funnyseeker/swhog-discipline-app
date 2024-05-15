@@ -16,27 +16,36 @@ public interface GenericMapper<PK extends Serializable, T extends AbstractEntity
     T toEntity(D dto);
 
     default PK toId(T entity) {
-        return entity.getId();
+        return entity != null? entity.getId(): null;
     }
 
     default T fromId(PK id)
     throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException
     {
+        if (id == null) {
+            return null;
+        }
         T entity = getEntityClass().getConstructor()
                                    .newInstance();
         entity.setId(id);
         return entity;
     }
 
-    default Set<PK> toIds(Set<T> entity) {
-        return entity.stream()
-                     .map(AbstractEntity::getId)
-                     .collect(Collectors.toSet());
+    default Set<PK> toIds(Set<T> set) {
+        if (set == null) {
+            return null;
+        }
+        return set.stream()
+                  .map(AbstractEntity::getId)
+                  .collect(Collectors.toSet());
     }
 
     default Set<T> fromIds(Set<PK> ids)
     throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException
     {
+        if (ids == null) {
+            return null;
+        }
         Set<T> set = new HashSet<>();
         for (PK id : ids) {
             T entity = getEntityClass().getConstructor()

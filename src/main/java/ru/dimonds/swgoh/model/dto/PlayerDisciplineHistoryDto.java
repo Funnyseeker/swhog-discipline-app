@@ -1,6 +1,9 @@
 package ru.dimonds.swgoh.model.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.OffsetDateTime;
 
@@ -12,6 +15,6 @@ public class PlayerDisciplineHistoryDto {
     private Long           id;
     private OffsetDateTime date;
     private Long           player;
-    private Long           disciplineRule;
+    private String         reason;
     private Long           disciplinePoints;
 }

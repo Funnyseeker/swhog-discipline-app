@@ -1,0 +1,7 @@
+<th scope="col" th:fragment="sorting(path, field, label)" xmlns:th="http://www.thymeleaf.org">
+    <a th:href="@{'/' + ${path} + '?' + ${keyword!=null && keyword!=''? 'keyword=' + keyword + '&' : ''}
+                + ${sortField!=null ? '&sort=' + field + ',' + (sortField == field ? reverseSortDirection : sortDirection) : ''}}">
+        [[${label}]] </a>
+    <span th:if="${sortField == field}"
+          th:class="${sortDirection == 'asc' ? 'fas fa-arrow-down-short-wide' : 'fas fa-arrow-down-wide-short'}"></span>
+</th>

@@ -1,14 +1,10 @@
 package ru.dimonds.swgoh.dao.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.id.enhanced.SequenceStyleGenerator;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import java.time.OffsetDateTime;
 import java.util.Objects;
@@ -31,14 +27,13 @@ import java.util.Objects;
         }
 )
 public class PlayerDisciplineHistoryEntity extends AbstractEntity<Long> {
-    private OffsetDateTime       date;
+    private OffsetDateTime date;
     @ManyToOne
     @JoinColumn(name = "player_id")
-    private PlayerEntity         player;
-    @ManyToOne
-    @JoinColumn(name = "rule_id")
-    private DisciplineRuleEntity disciplineRule;
-    private Long                 disciplinePoints;
+    private PlayerEntity   player;
+    @Column(columnDefinition = "text")
+    private String         reason;
+    private Long           disciplinePoints;
 
     @Override
     public boolean equals(Object o) {
@@ -47,12 +42,12 @@ public class PlayerDisciplineHistoryEntity extends AbstractEntity<Long> {
         PlayerDisciplineHistoryEntity that = (PlayerDisciplineHistoryEntity) o;
         return Objects.equals(date, that.date) &&
                Objects.equals(player, that.player) &&
-               Objects.equals(disciplineRule, that.disciplineRule) &&
+               Objects.equals(reason, that.reason) &&
                Objects.equals(disciplinePoints, that.disciplinePoints);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(date, player, disciplineRule, disciplinePoints);
+        return Objects.hash(date, player, reason, disciplinePoints);
     }
 }

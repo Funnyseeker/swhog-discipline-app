@@ -2,20 +2,20 @@ package ru.dimonds.swgoh.service.impl;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.JpaRepository;
 import ru.dimonds.swgoh.dao.entity.AbstractEntity;
 import ru.dimonds.swgoh.model.mapper.GenericMapper;
 import ru.dimonds.swgoh.service.CrudService;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.stream.StreamSupport;
 
 public abstract class CrudServiceImpl<PK extends Serializable, T extends AbstractEntity<PK>, D>
         implements CrudService<PK, T, D>
 {
     @Autowired
-    protected CrudRepository<T, PK>   repo;
+    protected JpaRepository<T, PK>    repo;
     @Autowired
     protected GenericMapper<PK, T, D> mapper;
 
@@ -27,8 +27,15 @@ public abstract class CrudServiceImpl<PK extends Serializable, T extends Abstrac
 
     @Override
     public List<D> getAll() {
-        return StreamSupport.stream(repo.findAll().spliterator(), false)
-                            .map(mapper::toDto)
-                            .toList();
+        return repo.findAll().stream()
+                   .map(mapper::toDto)
+                   .toList();
+    }
+
+    @Override
+    public List<D> getAll(Sort sort) {
+        return repo.findAll(sort).stream()
+                   .map(mapper::toDto)
+                   .toList();
     }
 }
