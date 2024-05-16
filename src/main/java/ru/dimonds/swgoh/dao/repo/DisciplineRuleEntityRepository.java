@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import ru.dimonds.swgoh.dao.entity.DisciplineRuleEntity;
 
 @Repository
-public interface DisciplineRuleEntityRepository extends JpaRepository<DisciplineRuleEntity, Long> {
+public interface DisciplineRuleEntityRepository extends AbstractRepository<DisciplineRuleEntity, Long> {
 }

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import ru.dimonds.swgoh.dao.entity.PlayerDisciplineHistoryEntity;
 
 @Repository
-public interface PlayerDisciplineHistoryEntityRepository extends JpaRepository<PlayerDisciplineHistoryEntity, Long> {
+public interface PlayerDisciplineHistoryEntityRepository extends AbstractRepository<PlayerDisciplineHistoryEntity, Long> {
 }

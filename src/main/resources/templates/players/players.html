@@ -11,17 +11,17 @@
     <script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 </head>
-<div th:insert="~{fragments/header :: header}">Header</div>
+<div th:replace="~{fragments/header :: header}">Header</div>
 <body>
 <div class="container-xl">
-    <form th:action="@{/players}" method="post" th:object="${searchDates}">
+    <form th:action="@{/players/search}" method="post" th:object="${searchDates}">
         <div class="input-group">
-            <span class="input-group-text" id="addon-wrapping">Date Range</span>
+            <span class="input-group-text" id="dateRangeSpan">Date Range</span>
             <input type="date" class="form-control" placeholder="Start date" aria-label="Start date"
-                   aria-describedby="addon-wrapping" id="start-date" th:field="${searchDates.start}"
+                   aria-describedby="dateRangeSpan" id="start-date" th:field="${searchDates.start}"
                    value="<${# searchDates.start==null ? null : dates.format(searchDates.start, 'dd.MM.yyyy')}>">
             <input type="date" class="form-control" placeholder="End date" aria-label="End date"
-                   aria-describedby="addon-wrapping" id="end-date" th:field="${searchDates.end}"
+                   aria-describedby="dateRangeSpan" id="end-date" th:field="${searchDates.end}"
                    value="<${# searchDates.end==null ? null : dates.format(searchDates.end, 'dd.MM.yyyy')}>">
             <button class="btn btn-outline-secondary" type="submit" id="button-search">Search</button>
         </div>
@@ -32,14 +32,14 @@
             <th th:replace="fragments/sorting :: sorting('players','name','Name')"></th>
             <th th:replace="fragments/sorting :: sorting('players','discordNickName','Discord')"></th>
             <th th:replace="fragments/sorting :: sorting('players','swgohAllyCode','swgohAllyCode')"></th>
-            <th th:replace="fragments/sorting :: sorting('players','disciplinePointsTotal','DisciplinePoints')"></th>
+            <th th:replace="fragments/sorting :: sorting('players','disciplinePointsTotal','Discipline points')"></th>
             <th></th>
             <th></th>
         </tr>
         </thead>
         <tbody>
         <tr th:if="${players.empty}">
-            <td colspan="4">No players yet!</td>
+            <td colspan="4">No players found!</td>
         </tr>
         <tr th:each="player : ${players}">
             <td th:text="${player.name}"></td>
@@ -47,12 +47,50 @@
             <td th:text="${player.swgohAllyCode == null ? '' : player.swgohAllyCode}"></td>
             <td th:text="${player.disciplinePointsTotal}"></td>
             <td><a th:href="@{/players/{id}(id=${player.id})}">Edit</a></td>
-            <td><a th:href="@{/players/{id}(id=${player.id})/addpoints}">Add points</a></td>
+            <!--            <td><a th:href="@{/players/{id}(id=${player.id})/addpoints}">Add points</a></td>-->
+            <td>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        th:data-bs-target="'#modalPlayer'+${player.id}">
+                    Add points
+                </button>
+                <div class="modal fade" th:id="'modalPlayer'+${player.id}" tabindex="-1"
+                     role="dialog" aria-labelledby="playerModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="playerModalLabel">Modal title</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="modalPlayerName"
+                                          th:text="${player.name}"></span>
+                                    <input type="date" class="form-control" placeholder="Date"
+                                           aria-label="Point date"
+                                           aria-describedby="addon-wrapping" id="pointDate"
+                                           th:field="${historyData.date}"
+                                           value="null">
+                                    ...
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <a th:href="@{'players/'+${player.id}+'/addpoints'}" class="btn btn-primary">
+                                    Save changes
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+
         </tr>
         </tbody>
     </table>
-    <div th:insert="~{fragments/footer :: footer}"></div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </div>
-
+<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 </body>
 </html>

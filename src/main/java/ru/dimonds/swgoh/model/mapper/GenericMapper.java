@@ -5,6 +5,7 @@ import ru.dimonds.swgoh.dao.entity.AbstractEntity;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -60,8 +61,7 @@ public interface GenericMapper<PK extends Serializable, T extends AbstractEntity
     default Class<T> getEntityClass() {
         return (
                 (Class<T>) (
-                        (ParameterizedType) getClass()
-                                .getGenericSuperclass()
+                        (ParameterizedType) ((Class<?>) getClass().getGenericInterfaces()[0]).getGenericInterfaces()[0]
                 ).getActualTypeArguments()[1]
         );
     }

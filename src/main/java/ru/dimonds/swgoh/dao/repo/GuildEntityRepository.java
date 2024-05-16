@@ -8,6 +8,6 @@ import ru.dimonds.swgoh.dao.entity.GuildEntity;
 import java.util.Optional;
 
 @Repository
-public interface GuildEntityRepository extends JpaRepository<GuildEntity, Long> {
+public interface GuildEntityRepository extends AbstractRepository<GuildEntity, Long> {
     Optional<GuildEntity> findGuildByUrl(String url);
 }

@@ -12,4 +12,6 @@ public interface CrudService<PK extends Serializable, T extends AbstractEntity<P
     List<D> getAll();
 
     List<D> getAll(Sort sort);
+
+    D findById(PK id);
 }

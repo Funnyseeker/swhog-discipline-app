@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 import ru.dimonds.swgoh.dao.entity.UserEntity;
 
 @Repository
-public interface UserEntityRepository extends JpaRepository<UserEntity, Long> {
+public interface UserEntityRepository extends AbstractRepository<UserEntity, Long> {
 }
