@@ -48,15 +48,17 @@ public class GuildEntity extends AbstractEntity<Long> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         GuildEntity that = (GuildEntity) o;
         return Objects.equals(url, that.url) &&
                Objects.equals(name, that.name) &&
                Objects.equals(lastSyncDate, that.lastSyncDate) &&
-               Objects.equals(userList, that.userList);
+               Objects.equals(userList, that.userList) &&
+               Objects.equals(disciplineRules, that.disciplineRules);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(url, name, lastSyncDate, userList);
+        return Objects.hash(super.hashCode(), url, name, lastSyncDate, userList, disciplineRules);
     }
 }

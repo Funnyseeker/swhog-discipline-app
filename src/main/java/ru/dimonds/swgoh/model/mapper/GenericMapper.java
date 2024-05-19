@@ -1,38 +1,40 @@
 package ru.dimonds.swgoh.model.mapper;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import ru.dimonds.swgoh.dao.entity.AbstractEntity;
+import ru.dimonds.swgoh.dao.repo.AbstractRepository;
 
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public interface GenericMapper<PK extends Serializable, T extends AbstractEntity<PK>, D> {
+public abstract class GenericMapper<PK extends Serializable, T extends AbstractEntity<PK>, D> {
 
-    D toDto(T entity);
+    @Autowired
+    protected AbstractRepository<T, PK> repository;
 
-    T toEntity(D dto);
+    public abstract D toDto(T entity);
 
-    default PK toId(T entity) {
-        return entity != null? entity.getId(): null;
+    public abstract T toEntity(D dto);
+
+    public PK toId(T entity) {
+        return entity != null ? entity.getId() : null;
     }
 
-    default T fromId(PK id)
+    public T fromId(PK id)
     throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException
     {
         if (id == null) {
             return null;
         }
-        T entity = getEntityClass().getConstructor()
-                                   .newInstance();
-        entity.setId(id);
-        return entity;
+        return repository.findById(id).orElse(null);
     }
 
-    default Set<PK> toIds(Set<T> set) {
+    public Set<PK> toIds(Set<T> set) {
         if (set == null) {
             return null;
         }
@@ -41,24 +43,35 @@ public interface GenericMapper<PK extends Serializable, T extends AbstractEntity
                   .collect(Collectors.toSet());
     }
 
-    default Set<T> fromIds(Set<PK> ids)
+    public Set<T> fromIds(Set<PK> ids)
     throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException
     {
         if (ids == null) {
             return null;
         }
-        Set<T> set = new HashSet<>();
-        for (PK id : ids) {
-            T entity = getEntityClass().getConstructor()
-                                       .newInstance();
-            entity.setId(id);
-            set.add(entity);
+        return new HashSet<>(repository.findAllById(ids));
+    }
+
+    public List<PK> toIds(List<T> set) {
+        if (set == null) {
+            return null;
         }
-        return set;
+        return set.stream()
+                  .map(AbstractEntity::getId)
+                  .toList();
+    }
+
+    public List<T> fromIds(List<PK> ids)
+    throws NoSuchMethodException, InstantiationException, IllegalAccessException, InvocationTargetException
+    {
+        if (ids == null) {
+            return null;
+        }
+        return repository.findAllById(ids);
     }
 
     @SuppressWarnings("unchecked")
-    default Class<T> getEntityClass() {
+    protected Class<T> getEntityClass() {
         return (
                 (Class<T>) (
                         (ParameterizedType) ((Class<?>) getClass().getGenericInterfaces()[0]).getGenericInterfaces()[0]

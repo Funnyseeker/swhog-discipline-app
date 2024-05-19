@@ -5,16 +5,26 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.dimonds.swgoh.model.AddPlayerDisciplineHistoryDto;
+import ru.dimonds.swgoh.model.dto.DisciplineRuleDto;
 import ru.dimonds.swgoh.model.dto.PlayerDisciplineHistoryDto;
 import ru.dimonds.swgoh.model.dto.SearchDatesDto;
+import ru.dimonds.swgoh.service.DisciplineRuleService;
 import ru.dimonds.swgoh.service.PlayerService;
+import ru.dimonds.swgoh.service.impl.PlayerDisciplineHistoryService;
+
+import java.time.ZoneOffset;
 
 @Controller
 @RequestMapping("/players")
 public class PlayersController {
 
     @Autowired
-    private PlayerService playerService;
+    private PlayerService                  playerService;
+    @Autowired
+    private DisciplineRuleService          ruleService;
+    @Autowired
+    private PlayerDisciplineHistoryService disciplineHistoryService;
 
     @GetMapping
     private String getAll(Model model, @RequestParam(name = "sort", defaultValue = "name,asc") String[] sort) {
@@ -41,7 +51,8 @@ public class PlayersController {
         model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("reverseSortDirection", sortDirection.equals("desc") ? "asc" : "desc");
         model.addAttribute("searchDates", searchDatesDto);
-        model.addAttribute("historyData", PlayerDisciplineHistoryDto.builder().build());
+        model.addAttribute("historyData", AddPlayerDisciplineHistoryDto.builder().build());
+        model.addAttribute("rules", ruleService.getAll());
         return "players/players.html";
     }
 
@@ -67,27 +78,48 @@ public class PlayersController {
         model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("reverseSortDirection", sortDirection.equals("desc") ? "asc" : "desc");
         model.addAttribute("searchDates", searchDatesDto);
-        model.addAttribute("historyData", PlayerDisciplineHistoryDto.builder().build());
+        model.addAttribute("historyData", AddPlayerDisciplineHistoryDto.builder().build());
+        model.addAttribute("rules", ruleService.getAll());
         return "players/players.html";
     }
 
-    @GetMapping("/{id}/addpoints")
+    @PostMapping("/{id}/addpoints")
     private String addPoints(
             Model model,
             @PathVariable("id") Long playerId,
-            @ModelAttribute("searchDates") SearchDatesDto searchDatesDto
+            @ModelAttribute("searchDates") SearchDatesDto searchDatesDto,
+            @ModelAttribute("historyData") AddPlayerDisciplineHistoryDto historyData,
+            @RequestParam(name = "sort", defaultValue = "name,asc") String[] sort
     )
     {
 
+        DisciplineRuleDto ruleDto = ruleService.findById(historyData.getRuleId());
+
+        disciplineHistoryService.save(
+                PlayerDisciplineHistoryDto.builder()
+                                          .date(historyData.getDate().toInstant().atOffset(ZoneOffset.UTC))
+                                          .player(playerId)
+                                          .reason(ruleDto.getReason())
+                                          .disciplinePoints(ruleDto.getDisciplinePoints())
+                                          .build()
+        );
+
+        String sortField     = sort[0];
+        String sortDirection = sort[1];
+
+        Sort.Direction direction = sortDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Sort.Order     order     = new Sort.Order(direction, sortField);
+
         model.addAttribute(
                 "players",
-                playerService.getAll()
+                playerService.getAll(searchDatesDto, Sort.by(order))
         );
         model.addAttribute("sortField", "name");
         model.addAttribute("sortDirection", "asc");
         model.addAttribute("reverseSortDirection", "desc");
         model.addAttribute("searchDates", searchDatesDto);
-        model.addAttribute("historyData", PlayerDisciplineHistoryDto.builder().build());
-        return "players/players.html";
+        model.addAttribute("historyData", AddPlayerDisciplineHistoryDto.builder().build());
+        model.addAttribute("rules", ruleService.getAll());
+        return "redirect:/players";
     }
 }

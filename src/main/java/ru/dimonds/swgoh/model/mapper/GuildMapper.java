@@ -5,5 +5,5 @@ import ru.dimonds.swgoh.dao.entity.GuildEntity;
 import ru.dimonds.swgoh.model.dto.GuildDto;
 
 @Mapper(componentModel = "spring", uses = {UserMapper.class})
-public interface GuildMapper extends GenericMapper<Long, GuildEntity, GuildDto> {
+public abstract class GuildMapper extends GenericMapper<Long, GuildEntity, GuildDto> {
 }

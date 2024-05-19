@@ -1,15 +1,15 @@
 package ru.dimonds.swgoh.dao.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.id.enhanced.SequenceStyleGenerator;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -35,15 +35,20 @@ public class PlayerEntity extends AbstractEntity<Long> {
     @Column(columnDefinition = "text")
     private String                             name;
     private String                             discordNickName;
-    private String                             swgohAllyCode;
-    @OneToMany(mappedBy = "player")
-    @ToString.Exclude
-    private Set<PlayerDisciplineHistoryEntity> playerDisciplineHistory;
+    private String                              swgohAllyCode;
+    @OneToMany(
+            mappedBy = "player",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.ALL
+    )
+    @Fetch(value = FetchMode.SUBSELECT)
+    private List<PlayerDisciplineHistoryEntity> playerDisciplineHistory;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         PlayerEntity that = (PlayerEntity) o;
         return Objects.equals(name, that.name) &&
                Objects.equals(
@@ -56,6 +61,6 @@ public class PlayerEntity extends AbstractEntity<Long> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, discordNickName, swgohAllyCode, playerDisciplineHistory);
+        return Objects.hash(super.hashCode(), name, discordNickName, swgohAllyCode, playerDisciplineHistory);
     }
 }

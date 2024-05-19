@@ -40,15 +40,15 @@ public class DisciplineRuleEntity extends AbstractEntity<Long> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         DisciplineRuleEntity that = (DisciplineRuleEntity) o;
-        return Objects.equals(reason, that.reason) && Objects.equals(
-                disciplinePoints,
-                that.disciplinePoints
-        );
+        return Objects.equals(guild, that.guild) &&
+               Objects.equals(reason, that.reason) &&
+               Objects.equals(disciplinePoints, that.disciplinePoints);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(reason, disciplinePoints);
+        return Objects.hash(super.hashCode(), guild, reason, disciplinePoints);
     }
 }

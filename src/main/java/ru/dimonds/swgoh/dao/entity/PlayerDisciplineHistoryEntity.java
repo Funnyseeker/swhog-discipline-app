@@ -28,8 +28,8 @@ import java.util.Objects;
 )
 public class PlayerDisciplineHistoryEntity extends AbstractEntity<Long> {
     private OffsetDateTime date;
-    @ManyToOne
-    @JoinColumn(name = "player_id")
+    @ManyToOne(targetEntity = PlayerEntity.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "player_id", nullable = false)
     private PlayerEntity   player;
     @Column(columnDefinition = "text")
     private String         reason;
@@ -39,6 +39,7 @@ public class PlayerDisciplineHistoryEntity extends AbstractEntity<Long> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
         PlayerDisciplineHistoryEntity that = (PlayerDisciplineHistoryEntity) o;
         return Objects.equals(date, that.date) &&
                Objects.equals(player, that.player) &&
@@ -48,6 +49,6 @@ public class PlayerDisciplineHistoryEntity extends AbstractEntity<Long> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(date, player, reason, disciplinePoints);
+        return Objects.hash(super.hashCode(), date, player, reason, disciplinePoints);
     }
 }

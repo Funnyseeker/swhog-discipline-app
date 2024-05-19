@@ -22,7 +22,7 @@ public abstract class CrudServiceImpl<PK extends Serializable, T extends Abstrac
     @Override
     @Transactional
     public D save(D dto) {
-        return this.mapper.toDto(this.repo.save(this.mapper.toEntity(dto)));
+        return this.mapper.toDto(this.repo.saveAndFlush(this.mapper.toEntity(dto)));
     }
 
     @Override
@@ -36,7 +36,8 @@ public abstract class CrudServiceImpl<PK extends Serializable, T extends Abstrac
     @Override
     @Transactional
     public List<D> getAll(Sort sort) {
-        return repo.findAll(sort).stream()
+        return repo.findAll(sort)
+                   .stream()
                    .map(mapper::toDto)
                    .toList();
     }
