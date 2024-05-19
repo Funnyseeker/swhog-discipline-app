@@ -14,7 +14,7 @@
 <div th:replace="~{fragments/header :: header}">Header</div>
 <body>
 <div class="container-xl">
-    <form th:action="@{/players/search}" method="post" th:object="${searchDates}">
+    <form th:action="@{/players/search?sort={field},{direction}(field=${sortField},direction=${sortDirection})}" method="post" th:object="${searchDates}">
         <div class="input-group">
             <span class="input-group-text" id="dateRangeSpan">Date Range</span>
             <input type="date" class="form-control" placeholder="Start date" aria-label="Start date"
@@ -46,7 +46,7 @@
             <td th:text="${player.discordNickName == null ? '' : player.discordNickName}"></td>
             <td th:text="${player.swgohAllyCode == null ? '' : player.swgohAllyCode}"></td>
             <td th:text="${player.disciplinePointsTotal}"></td>
-            <td><a th:href="@{/players/{id}(id=${player.id})}">Edit</a></td>
+<!--            <td><a th:href="@{/players/{id}(id=${player.id})}">Edit</a></td>-->
             <!--            <td><a th:href="@{/players/{id}(id=${player.id})/addpoints}">Add points</a></td>-->
             <td>
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal"
@@ -92,6 +92,13 @@
                         </div>
                     </div>
                 </div>
+            </td>
+            <td>
+                <form th:action="@{'players/'+${player.id}+'/history'}" method="get">
+                    <button type="submit" class="btn btn-primary">
+                        History
+                    </button>
+                </form>
             </td>
 
         </tr>

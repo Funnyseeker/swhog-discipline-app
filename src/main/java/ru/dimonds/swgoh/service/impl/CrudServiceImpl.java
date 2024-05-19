@@ -43,7 +43,15 @@ public abstract class CrudServiceImpl<PK extends Serializable, T extends Abstrac
     }
 
     @Override
+    @Transactional
     public D findById(PK id) {
         return mapper.toDto(repo.findById(id).get());
+    }
+
+    @Override
+    @Transactional
+    public void delete(PK id) {
+        repo.deleteById(id);
+        repo.flush();
     }
 }

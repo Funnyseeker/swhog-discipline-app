@@ -28,7 +28,7 @@ import java.util.Objects;
 )
 public class PlayerDisciplineHistoryEntity extends AbstractEntity<Long> {
     private OffsetDateTime date;
-    @ManyToOne(targetEntity = PlayerEntity.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = PlayerEntity.class)
     @JoinColumn(name = "player_id", nullable = false)
     private PlayerEntity   player;
     @Column(columnDefinition = "text")

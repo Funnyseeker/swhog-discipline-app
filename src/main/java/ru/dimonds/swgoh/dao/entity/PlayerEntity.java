@@ -36,11 +36,7 @@ public class PlayerEntity extends AbstractEntity<Long> {
     private String                             name;
     private String                             discordNickName;
     private String                              swgohAllyCode;
-    @OneToMany(
-            mappedBy = "player",
-            fetch = FetchType.EAGER,
-            cascade = CascadeType.ALL
-    )
+    @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<PlayerDisciplineHistoryEntity> playerDisciplineHistory;
 
