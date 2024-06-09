@@ -11,4 +11,6 @@ public interface PlayerDisciplineHistoryService
         extends CrudService<Long, PlayerDisciplineHistoryEntity, PlayerDisciplineHistoryDto>
 {
     List<PlayerDisciplineHistoryDto> getByPlayerId(Long playerId, Sort sort);
+
+    void deleteByPlayerId(Long playerId);
 }

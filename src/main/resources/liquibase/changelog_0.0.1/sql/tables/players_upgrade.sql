@@ -1,0 +1,1 @@
+alter table players add column guild_id bigint;

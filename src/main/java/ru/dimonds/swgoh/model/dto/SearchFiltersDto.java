@@ -7,14 +7,20 @@ import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class SearchDatesDto {
+public class SearchFiltersDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date start;
+    private Date                    start;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date end;
+    private Date                    end;
+    private List<DisciplineRuleDto> rules;
+
+    public boolean isEmpty() {
+        return start == null && end == null && (rules == null || rules.isEmpty());
+    }
 }

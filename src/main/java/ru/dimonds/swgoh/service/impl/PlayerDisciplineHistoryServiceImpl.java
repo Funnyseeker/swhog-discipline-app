@@ -29,4 +29,19 @@ public class PlayerDisciplineHistoryServiceImpl
                    .map(mapper::toDto)
                    .toList();
     }
+
+    @Override
+    @Transactional
+    public void deleteByPlayerId(Long playerId) {
+        Specification<PlayerDisciplineHistoryEntity>
+                specification =
+                (root, query, criteriaBuilder) -> criteriaBuilder.equal(
+                        root.join("player")
+                            .get("id"),
+                        playerId
+                );
+        repo.findAll(specification)
+            .forEach(repo::delete);
+
+    }
 }

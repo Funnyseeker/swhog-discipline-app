@@ -11,4 +11,7 @@
         <sqlFile path="sql/tables/discipline_rules.sql" relativeToChangelogFile="true"/>
         <sqlFile path="sql/tables/player_discipline_history.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet id="1" author="vsamsonov">
+        <sqlFile path="sql/tables/players_upgrade.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>

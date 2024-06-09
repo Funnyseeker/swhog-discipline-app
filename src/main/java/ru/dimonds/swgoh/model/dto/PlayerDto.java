@@ -13,6 +13,7 @@ import java.util.Set;
 @Builder
 public class PlayerDto {
     private Long                            id;
+    private Long                            guildId;
     private String                          name;
     private String                          discordNickName;
     private String                          swgohAllyCode;

@@ -44,6 +44,7 @@ public class SignUpServiceImpl implements SignUpService {
                    .map(
                            player -> PlayerDto.builder()
                                               .name(player)
+                                              .guildId(newGuild.getId())
                                               .build()
                    )
                    .toList()

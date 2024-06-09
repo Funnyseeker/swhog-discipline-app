@@ -11,7 +11,6 @@ import org.hibernate.id.enhanced.SequenceStyleGenerator;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "players")
@@ -32,9 +31,10 @@ import java.util.Set;
         }
 )
 public class PlayerEntity extends AbstractEntity<Long> {
+    private Long                                guildId;
     @Column(columnDefinition = "text")
-    private String                             name;
-    private String                             discordNickName;
+    private String                              name;
+    private String                              discordNickName;
     private String                              swgohAllyCode;
     @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
