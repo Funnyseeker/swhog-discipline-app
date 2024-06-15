@@ -1,11 +1,14 @@
 package ru.dimonds.swgoh.dao.entity;
 
+import io.hypersistence.utils.hibernate.type.range.PostgreSQLRangeType;
+import io.hypersistence.utils.hibernate.type.range.Range;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.ManyToAny;
 import org.hibernate.annotations.Parameter;
+import org.hibernate.annotations.Type;
 import org.hibernate.id.enhanced.SequenceStyleGenerator;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -35,6 +38,11 @@ public class DisciplineRuleEntity extends AbstractEntity<Long> {
     @Column(columnDefinition = "text")
     private String reason;
     private Long   disciplinePoints;
+    @Column(columnDefinition = "text")
+    private String      botType;
+    @Type(PostgreSQLRangeType.class)
+    @Column(name = "rule_values")
+    private Range<Long> ruleValues;
 
     @Override
     public boolean equals(Object o) {

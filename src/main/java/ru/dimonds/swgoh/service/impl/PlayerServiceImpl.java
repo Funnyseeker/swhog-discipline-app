@@ -79,6 +79,16 @@ public class PlayerServiceImpl extends CrudServiceImpl<Long, PlayerEntity, Playe
                    .toList();
     }
 
+    @Override
+    public Optional<PlayerDto> findByName(String name) {
+        Specification<PlayerEntity> specification = (root, query, criteriaBuilder) -> criteriaBuilder.equal(
+                root.get("name"),
+                name
+        );
+        return repo.findOne(specification)
+                   .map(mapper::toDto);
+    }
+
     private Specification<PlayerEntity> getDateRangeSpecification(
             SearchFiltersDto searchDates
     )

@@ -6,9 +6,12 @@ import ru.dimonds.swgoh.model.dto.PlayerDto;
 import ru.dimonds.swgoh.model.dto.SearchFiltersDto;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PlayerService extends CrudService<Long, PlayerEntity, PlayerDto> {
     List<PlayerDto> getAll(SearchFiltersDto filtersDto, Sort sort);
 
     List<PlayerDto> findByGuild(Long guildId);
+
+    Optional<PlayerDto> findByName(String name);
 }
