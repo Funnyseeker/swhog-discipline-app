@@ -3,12 +3,11 @@ package ru.dimonds.swgoh.dao.entity;
 import io.hypersistence.utils.hibernate.type.range.PostgreSQLRangeType;
 import io.hypersistence.utils.hibernate.type.range.Range;
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.ManyToAny;
+import org.hibernate.annotations.*;
 import org.hibernate.annotations.Parameter;
-import org.hibernate.annotations.Type;
 import org.hibernate.id.enhanced.SequenceStyleGenerator;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -31,6 +30,8 @@ import java.util.Objects;
                 @Parameter(name = "increment_size", value = "1")
         }
 )
+@DynamicInsert
+@DynamicUpdate
 public class DisciplineRuleEntity extends AbstractEntity<Long> {
     @ManyToOne
     @JoinColumn(name = "guild_id")
