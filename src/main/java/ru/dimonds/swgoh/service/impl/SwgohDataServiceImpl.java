@@ -13,8 +13,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Service
 public class SwgohDataServiceImpl implements SwgohDataService {
 
-    private final int columnsCnt = 6;
-
     @Override
     public List<String> getPlayerNamesBySwgohGGGuildUrl(String guildUrl) throws IOException {
         Document      doc         = Jsoup.connect(guildUrl).get();
@@ -23,10 +21,25 @@ public class SwgohDataServiceImpl implements SwgohDataService {
         doc.select("td")
            .forEach(
                    element -> {
-                       if (element.hasAttr("data-sort-value") && cnt.get() % columnsCnt == 0) {
-                           playerNames.add(element.attribute("data-sort-value").getValue());
-                       }
-                       cnt.incrementAndGet();
+                       element.select("div")
+                              .forEach(
+                                      div -> {
+                                          if (
+                                                  div.attribute("class") != null &&
+                                                  div.attribute("class")
+                                                     .getValue().equals("fw-bold text-white")
+                                          )
+                                          {
+                                              String val = div.childNodes()
+                                                              .get(0)
+                                                              .toString()
+                                                              .replace("\n", "");
+                                              if (val != null && !val.isBlank()) {
+                                                  playerNames.add(val);
+                                              }
+                                          }
+                                      }
+                              );
                    }
            );
         return playerNames;
