@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import ru.dimonds.swgoh.model.dto.DisciplineRuleDto;
 import ru.dimonds.swgoh.model.dto.PlayerDisciplineHistoryDto;
 import ru.dimonds.swgoh.model.dto.PlayerDto;
@@ -44,29 +43,33 @@ public class LoadWookieeBotData {
             List<DisciplineRuleDto> rules = disciplineRuleService.getRulesByBot("wookiee");
             while ((values = csvReader.readNext()) != null) {
                 if (values.length > 4) {
-                    Optional<PlayerDto> player      = playerService.findByName(values[0]);
-                    BigDecimal          diffPercent = new BigDecimal(Double.parseDouble(values[5]));
-                    player.ifPresent(
-                            playerDto -> {
-                                rules.stream()
-                                     .filter(rule -> BigDecimal.valueOf(rule.getRuleValues().getMin())
-                                                               .compareTo(diffPercent) >= 0 &&
-                                                     BigDecimal.valueOf(rule.getRuleValues().getMax())
-                                                               .compareTo(diffPercent) < 0
-                                     )
-                                     .findFirst()
-                                     .ifPresent(
-                                             ruleDto -> disciplineHistoryService.save(
-                                                     PlayerDisciplineHistoryDto.builder()
-                                                                               .player(playerDto.getId())
-                                                                               .disciplinePoints(ruleDto.getDisciplinePoints())
-                                                                               .date(importDate)
-                                                                               .build()
-                                             )
-                                     );
+                    Optional<PlayerDto> player = playerService.findByName(values[0]);
+                    try {
+                        BigDecimal diffPercent = new BigDecimal(Double.parseDouble(values[5]));
+                        player.ifPresent(
+                                playerDto -> {
+                                    rules.stream()
+                                         .filter(rule -> BigDecimal.valueOf(rule.getRuleValues().getMin())
+                                                                   .compareTo(diffPercent) >= 0 &&
+                                                         BigDecimal.valueOf(rule.getRuleValues().getMax())
+                                                                   .compareTo(diffPercent) < 0
+                                         )
+                                         .findFirst()
+                                         .ifPresent(
+                                                 ruleDto -> disciplineHistoryService.save(
+                                                         PlayerDisciplineHistoryDto.builder()
+                                                                                   .player(playerDto.getId())
+                                                                                   .disciplinePoints(ruleDto.getDisciplinePoints())
+                                                                                   .date(importDate)
+                                                                                   .build()
+                                                 )
+                                         );
 
-                            }
-                    );
+                                }
+                        );
+                    } catch (Exception e) {
+                        log.error("Failed to import wookiee row:", e);
+                    }
                 }
             }
         } catch (CsvValidationException | IOException e) {
