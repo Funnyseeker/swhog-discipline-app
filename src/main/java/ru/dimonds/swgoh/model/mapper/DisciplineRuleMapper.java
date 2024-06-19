@@ -15,11 +15,19 @@ public abstract class DisciplineRuleMapper extends GenericMapper<Long, Disciplin
     @Mapping(target = "botType", ignore = true)
     public abstract DisciplineRuleEntity toEntity(DisciplineRuleDto dto);
 
-    protected Range<Long> map(RangeDto<Long> ruleValues) {
-        return Range.closedOpen(ruleValues.getMin(), ruleValues.getMax());
+    public Range<Long> map(RangeDto<Long> ruleValues) {
+        Range<Long> range = Range.infinite(Long.class);
+        if (ruleValues.getMax() == null && ruleValues.getMin() != null) {
+            range = Range.openInfinite(ruleValues.getMin());
+        } else if (ruleValues.getMin() == null && ruleValues.getMax() != null) {
+            range = Range.infiniteOpen(ruleValues.getMax());
+        } else if (ruleValues.getMin() != null) {
+            range = Range.openClosed(ruleValues.getMin(), ruleValues.getMax());
+        }
+        return range;
     }
 
-    protected RangeDto<Long> map(Range<Long> ruleValues) {
+    public RangeDto<Long> map(Range<Long> ruleValues) {
         return RangeDto.<Long>builder()
                        .min(ruleValues.lower())
                        .max(ruleValues.upper())
