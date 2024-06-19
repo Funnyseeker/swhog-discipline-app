@@ -39,6 +39,7 @@ public class PlayerEntity extends AbstractEntity<Long> {
     @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<PlayerDisciplineHistoryEntity> playerDisciplineHistory;
+    private Boolean                             isMember;
 
     @Override
     public boolean equals(Object o) {
@@ -46,17 +47,24 @@ public class PlayerEntity extends AbstractEntity<Long> {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
         PlayerEntity that = (PlayerEntity) o;
-        return Objects.equals(name, that.name) &&
-               Objects.equals(
-                       discordNickName,
-                       that.discordNickName
-               ) &&
+        return Objects.equals(guildId, that.guildId) &&
+               Objects.equals(name, that.name) &&
+               Objects.equals(discordNickName, that.discordNickName) &&
                Objects.equals(swgohAllyCode, that.swgohAllyCode) &&
-               Objects.equals(playerDisciplineHistory, that.playerDisciplineHistory);
+               Objects.equals(playerDisciplineHistory, that.playerDisciplineHistory) &&
+               Objects.equals(isMember, that.isMember);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), name, discordNickName, swgohAllyCode, playerDisciplineHistory);
+        return Objects.hash(
+                super.hashCode(),
+                guildId,
+                name,
+                discordNickName,
+                swgohAllyCode,
+                playerDisciplineHistory,
+                isMember
+        );
     }
 }

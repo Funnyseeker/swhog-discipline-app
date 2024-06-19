@@ -42,11 +42,10 @@ public class GuildDataUpdate {
                 List<PlayerDto> current = playerService.findByGuild(guildDto.getId());
                 current.stream()
                        .filter(playerDto -> !guildMembers.contains(playerDto.getName()))
-                       .map(PlayerDto::getId)
                        .forEach(
                                player -> {
-                                   disciplineHistoryService.deleteByPlayerId(player);
-                                   playerService.delete(player);
+                                   player.setIsMember(false);
+                                   playerService.save(player);
                                }
                        );
 

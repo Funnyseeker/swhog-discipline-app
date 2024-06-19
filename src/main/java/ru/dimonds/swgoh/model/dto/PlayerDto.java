@@ -19,4 +19,5 @@ public class PlayerDto {
     private String                          swgohAllyCode;
     private Long                            disciplinePointsTotal;
     private Set<PlayerDisciplineHistoryDto> playerDisciplineHistory;
+    private Boolean                         isMember;
 }

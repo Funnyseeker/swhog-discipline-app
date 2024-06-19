@@ -17,4 +17,7 @@
     <changeSet id="2" author="vsamsonov">
         <sqlFile path="sql/tables/discipline_rules_add_bots.sql" relativeToChangelogFile="true"/>
     </changeSet>
+    <changeSet id="3" author="vsamsonov">
+        <sqlFile path="sql/tables/players_upgrade2.sql" relativeToChangelogFile="true"/>
+    </changeSet>
 </databaseChangeLog>

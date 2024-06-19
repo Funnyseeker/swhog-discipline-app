@@ -23,6 +23,10 @@ public class PlayerServiceImpl extends CrudServiceImpl<Long, PlayerEntity, Playe
 
     @Override
     public List<PlayerDto> getAll(SearchFiltersDto filtersDto, Sort sort) {
+        Specification<PlayerEntity> isMemeberDefaultFilter = (root, query, criteriaBuilder) -> criteriaBuilder.equal(
+                root.get("isMember"),
+                Boolean.TRUE
+        );
         if (filtersDto != null && !filtersDto.isEmpty()) {
 
             Specification<PlayerEntity> dateRangeSpec = getDateRangeSpecification(filtersDto);
@@ -31,7 +35,7 @@ public class PlayerServiceImpl extends CrudServiceImpl<Long, PlayerEntity, Playe
                                                     ? dateRangeSpec.and(rulesSpec)
                                                     : Optional.ofNullable(dateRangeSpec).orElse(rulesSpec);
 
-            return repo.findAll(finalSpec, sort)
+            return repo.findAll(isMemeberDefaultFilter.and(finalSpec), sort)
                        .stream()
                        .map(mapper::toDto)
                        .map(
@@ -60,7 +64,7 @@ public class PlayerServiceImpl extends CrudServiceImpl<Long, PlayerEntity, Playe
                        )
                        .toList();
         }
-        return repo.findAll(sort)
+        return repo.findAll(isMemeberDefaultFilter, sort)
                    .stream()
                    .map(mapper::toDto)
                    .toList();
