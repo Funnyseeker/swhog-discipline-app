@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import ru.dimonds.swgoh.model.dto.DisciplineRuleDto;
 import ru.dimonds.swgoh.model.dto.PlayerDisciplineHistoryDto;
 import ru.dimonds.swgoh.model.dto.PlayerDto;
@@ -56,7 +55,11 @@ public class LoadWookieeBotData {
                                     rules.stream()
                                          .filter(
                                                  rule -> disciplineRuleMapper.map(rule.getRuleValues())
-                                                                             .contains(diffPercent)
+                                                                             .contains(diffPercent) ||
+                                                         (
+                                                                 rule.getRuleValues().getMin() != null &&
+                                                                 rule.getRuleValues().getMin().equals(diffPercent)
+                                                         )
                                          )
                                          .findFirst()
                                          .ifPresent(
