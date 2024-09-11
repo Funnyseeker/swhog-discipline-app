@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import ru.dimonds.swgoh.model.dto.DisciplineRuleDto;
 import ru.dimonds.swgoh.model.dto.PlayerDisciplineHistoryDto;
 import ru.dimonds.swgoh.model.dto.PlayerDto;
@@ -37,9 +38,9 @@ public class LoadWookieeBotData {
     private       DisciplineRuleService          disciplineRuleService;
     @Autowired
     private       DisciplineRuleMapper           disciplineRuleMapper;
-    private final OffsetDateTime                 importDate = OffsetDateTime.parse("2024-03-30T00:00:00+00:00");
+    private final OffsetDateTime                 importDate = OffsetDateTime.parse("2024-07-04T00:00:00+00:00");
 
-    @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.HOURS)
+//    @Scheduled(fixedDelay = 1, timeUnit = TimeUnit.HOURS)
     public void loadWookieData() {
         try (CSVReader csvReader = new CSVReader(new FileReader(resourceFile.getFile()))) {
             String[]                values;
@@ -51,29 +52,26 @@ public class LoadWookieeBotData {
                     try {
                         Long diffPercent = BigDecimal.valueOf(Double.parseDouble(values[5])).longValue();
                         player.ifPresent(
-                                playerDto -> {
-                                    rules.stream()
-                                         .filter(
-                                                 rule -> disciplineRuleMapper.map(rule.getRuleValues())
-                                                                             .contains(diffPercent) ||
-                                                         (
-                                                                 rule.getRuleValues().getMin() != null &&
-                                                                 rule.getRuleValues().getMin().equals(diffPercent)
-                                                         )
-                                         )
-                                         .findFirst()
-                                         .ifPresent(
-                                                 ruleDto -> disciplineHistoryService.save(
-                                                         PlayerDisciplineHistoryDto.builder()
-                                                                                   .player(playerDto.getId())
-                                                                                   .reason(ruleDto.getReason())
-                                                                                   .disciplinePoints(ruleDto.getDisciplinePoints())
-                                                                                   .date(importDate)
-                                                                                   .build()
-                                                 )
-                                         );
-
-                                }
+                                playerDto -> rules.stream()
+                                              .filter(
+                                             rule -> disciplineRuleMapper.map(rule.getRuleValues())
+                                                                         .contains(diffPercent) ||
+                                                     (
+                                                             rule.getRuleValues().getMin() != null &&
+                                                             rule.getRuleValues().getMin().equals(diffPercent)
+                                                     )
+                                     )
+                                              .findFirst()
+                                              .ifPresent(
+                                             ruleDto -> disciplineHistoryService.save(
+                                                     PlayerDisciplineHistoryDto.builder()
+                                                                               .player(playerDto.getId())
+                                                                               .reason(ruleDto.getReason())
+                                                                               .disciplinePoints(ruleDto.getDisciplinePoints())
+                                                                               .date(importDate)
+                                                                               .build()
+                                             )
+                                     )
                         );
                     } catch (Exception e) {
                         log.error("Failed to import wookiee row:", e);

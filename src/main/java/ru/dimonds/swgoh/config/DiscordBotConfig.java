@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.concurrent.Executors;
 
-@Configuration
+//@Configuration
 @Slf4j
 public class DiscordBotConfig {
 
