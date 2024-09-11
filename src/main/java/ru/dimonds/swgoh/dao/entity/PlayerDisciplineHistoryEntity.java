@@ -28,9 +28,8 @@ import java.util.Objects;
 )
 public class PlayerDisciplineHistoryEntity extends AbstractEntity<Long> {
     private OffsetDateTime date;
-    @ManyToOne(targetEntity = PlayerEntity.class)
-    @JoinColumn(name = "player_id", nullable = false)
-    private PlayerEntity   player;
+    @Column(name = "player_id", nullable = false)
+    private Long           player;
     @Column(columnDefinition = "text")
     private String         reason;
     private Long           disciplinePoints;

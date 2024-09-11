@@ -59,6 +59,7 @@ public class GuildDataUpdate {
                                 PlayerDto.builder()
                                          .name(player)
                                          .guildId(guildDto.getId())
+                                         .isMember(true)
                                          .build()
                         )
                 );

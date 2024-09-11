@@ -3,14 +3,13 @@ package ru.dimonds.swgoh.dao.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 import org.hibernate.id.enhanced.SequenceStyleGenerator;
 
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "players")
@@ -30,16 +29,17 @@ import java.util.Objects;
                 @Parameter(name = "optimizer", value = "hilo")
         }
 )
+@DynamicUpdate
 public class PlayerEntity extends AbstractEntity<Long> {
-    private Long                                guildId;
+    private Long                               guildId;
     @Column(columnDefinition = "text")
-    private String                              name;
-    private String                              discordNickName;
-    private String                              swgohAllyCode;
-    @OneToMany(mappedBy = "player", fetch = FetchType.EAGER)
-    @Fetch(value = FetchMode.SUBSELECT)
-    private List<PlayerDisciplineHistoryEntity> playerDisciplineHistory;
-    private Boolean                             isMember;
+    private String                             name;
+    private String                             discordNickName;
+    private String                             swgohAllyCode;
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "player_id", nullable = false, insertable = false, updatable = false)
+    private Set<PlayerDisciplineHistoryEntity> playerDisciplineHistory;
+    private Boolean                            isMember;
 
     @Override
     public boolean equals(Object o) {

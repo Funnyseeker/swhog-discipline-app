@@ -20,8 +20,7 @@ public class PlayerDisciplineHistoryServiceImpl
         Specification<PlayerDisciplineHistoryEntity>
                 specification =
                 (root, query, criteriaBuilder) -> criteriaBuilder.equal(
-                        root.join("player")
-                            .get("id"),
+                        root.get("player"),
                         playerId
                 );
         return repo.findAll(specification, sort)
